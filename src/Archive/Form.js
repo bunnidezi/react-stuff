@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import Message from "./Message";
+import React, { useEffect, useState } from "react";
+import Message from "../Message";
 
 const Form = ({ username, email }) => {
   const [formData, setFormData] = useState({
@@ -13,7 +13,9 @@ const Form = ({ username, email }) => {
     missing: "missing",
     isEmailMatch: true,
   });
-  const [loginSucces, setLoginSucces] = useState(false);
+  const [loginSucces, setLoginSucces] = useState(
+    JSON.parse(window.localStorage.getItem("authenticated")) || false
+  );
   const validateForm = () => {
     setError({
       missing: "missing",
@@ -36,7 +38,6 @@ const Form = ({ username, email }) => {
       setLoginSucces(true);
     }
   };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     validateForm();
@@ -52,12 +53,30 @@ const Form = ({ username, email }) => {
       e.target.type === "checkbox" ? e.target.checked : e.target.value;
     setFormData({ ...formData, [field]: value });
   };
+  const [page, setPage] = useState(1);
+  const handleNextPage = () => {
+    setPage((page) => page + 1);
+  };
+  useEffect(() => {
+    const url = `https://cs-steam-api.herokuapp.com/games?page=${page}`;
+    console.log(page);
+    fetch(url)
+      .then((data) => {
+        return data.json();
+      })
+      .then((res) => {
+        console.log(res);
+      });
+  }, [page]);
 
+  console.log("Form render");
   return (
     <>
+      <button onClick={handleNextPage}>next page</button>
       <form onSubmit={handleSubmit}>
+        <div></div>
         <div>
-          <label htmlFor="username">User</label>
+          <label htmlFor="username">Search Page</label>
           <input
             id="username"
             name="username"

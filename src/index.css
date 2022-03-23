@@ -25,8 +25,8 @@ button {
   background-color: rgba(17, 127, 27, 0.8);
   color: white;
   border-radius: 24px 24px 24px 24px;
-  padding: 0.7em;
-  font-size: 1.2em;
+  padding: 0.5em;
+  font-size: 1em;
 }
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
@@ -41,6 +41,9 @@ code {
   margin: auto;
 }
 
-#error {
+.error {
   color: red;
+}
+.success {
+  color: green;
 }
